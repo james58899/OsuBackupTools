@@ -21,7 +21,7 @@ public class ListFiles implements Runnable {
     @Override
     public void run() {
         try {
-            Files.newDirectoryStream(Paths.get(osuDir.toString(), "songs")).forEach(path -> {
+            Files.newDirectoryStream(Paths.get(osuDir.toString(), "Songs")).forEach(path -> {
                 try {
                     files.offerLast(Files.newDirectoryStream(path, "*.osu").iterator().next());
                 } catch (IOException e) {
