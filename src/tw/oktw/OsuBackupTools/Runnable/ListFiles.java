@@ -7,8 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayDeque;
 
-import static tw.oktw.OsuBackupTools.Main.getMain;
-
 public class ListFiles implements Runnable {
     private final File osuDir;
     private final ArrayDeque<Path> files;
@@ -26,12 +24,10 @@ public class ListFiles implements Runnable {
                     files.offerLast(Files.newDirectoryStream(path, "*.osu").iterator().next());
                 } catch (IOException e) {
                     e.printStackTrace();
-                    getMain().onException(e, false);
                 }
             });
         } catch (IOException e) {
             e.printStackTrace();
-            getMain().onException(e, true);
         }
     }
 }

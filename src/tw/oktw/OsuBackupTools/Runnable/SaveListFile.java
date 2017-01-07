@@ -6,8 +6,6 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import static tw.oktw.OsuBackupTools.Main.getMain;
-
 class SaveListFile implements Runnable {
     private final ConcurrentSkipListSet<Integer> idList;
     private final File saveFile;
@@ -32,8 +30,6 @@ class SaveListFile implements Runnable {
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            getMain().onException(e, true);
         }
-        getMain().onSuccessful();
     }
 }

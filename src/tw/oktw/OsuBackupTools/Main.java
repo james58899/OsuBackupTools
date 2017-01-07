@@ -1,7 +1,8 @@
 package tw.oktw.OsuBackupTools;
 
 import javafx.application.Application;
-import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,19 +20,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 public class Main extends Application {
     private File osuDir;
     private File saveFile;
-    private static Main main;
-    private static Button startBackupButton;
-    private BackupHandler backupHandler;
 
     @Override
     public void start(Stage primaryStage) {
-        main = this;
         //設定視窗標題
         primaryStage.setTitle("Beatmap 備份工具");
         GridPane grid = new GridPane();
@@ -72,7 +67,7 @@ public class Main extends Application {
         savePathSelectHBox.setAlignment(Pos.BASELINE_RIGHT);
         grid.add(savePathSelectHBox, 3, 2);
 
-        startBackupButton = new Button("開始備份");
+        Button startBackupButton = new Button("開始備份");
         startBackupButton.setDefaultButton(true);
         grid.add(startBackupButton, 3, 5);
 
@@ -97,8 +92,7 @@ public class Main extends Application {
             if (osuDir != null & saveFile != null) {
                 startBackupButton.setText("備份中...");
                 startBackupButton.setDisable(true);
-                backupHandler = new BackupHandler(osuDir, saveFile);
-                backupHandler.start();
+                new BackupHandler(osuDir, saveFile).start();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("錯誤");
@@ -110,41 +104,5 @@ public class Main extends Application {
 
         //顯示視窗
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    public static Main getMain() {
-        return main;
-    }
-
-    public void onSuccessful() {
-        Platform.runLater(() -> {
-            startBackupButton.setText("開始備份");
-            startBackupButton.setDisable(false);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("成功");
-            alert.setHeaderText("已備份完成！");
-            alert.setContentText("備份檔案已儲存至" + saveFile.toString());
-            alert.showAndWait();
-        });
-    }
-
-    public void onException(Exception e, Boolean stop) {
-        Platform.runLater(() -> {
-            if (stop) backupHandler.stop();
-            StringWriter ex = new StringWriter();
-            e.printStackTrace(new PrintWriter(ex));
-            startBackupButton.setText("開始備份");
-            startBackupButton.setDisable(false);
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setResizable(true);
-            alert.setTitle("錯誤");
-            alert.setHeaderText("發生錯誤！");
-            alert.setContentText(ex.toString());
-            alert.showAndWait();
-        });
     }
 }

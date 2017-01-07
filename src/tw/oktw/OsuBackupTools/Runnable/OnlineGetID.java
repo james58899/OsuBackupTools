@@ -11,8 +11,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import static tw.oktw.OsuBackupTools.Main.getMain;
-
 class OnlineGetID implements Runnable {
 
     private final Path file;
@@ -38,7 +36,6 @@ class OnlineGetID implements Runnable {
             }
         } catch (IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
-            getMain().onException(e, false);
         }
     }
 

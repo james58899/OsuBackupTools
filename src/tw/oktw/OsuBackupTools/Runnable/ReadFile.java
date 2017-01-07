@@ -10,8 +10,6 @@ import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static tw.oktw.OsuBackupTools.Main.getMain;
-
 public class ReadFile implements Runnable {
     private int deadLine;
     private final ArrayDeque<Path> files;
@@ -53,7 +51,6 @@ public class ReadFile implements Runnable {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    getMain().onException(e, false);
                 }
             } else {
                 deadLine++;
@@ -70,7 +67,6 @@ public class ReadFile implements Runnable {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
-                        getMain().onException(e, false);
                     }
                 }
             }

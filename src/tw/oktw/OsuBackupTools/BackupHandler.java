@@ -9,7 +9,6 @@ import java.util.ArrayDeque;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 class BackupHandler {
-    private int done = 0;
     private File osuDir;
     private File saveFile;
     private ConcurrentSkipListSet<Integer> idList = new ConcurrentSkipListSet<>();
@@ -29,9 +28,5 @@ class BackupHandler {
         readFileThread.setDaemon(true);
         listFilesThread.start();
         readFileThread.start();
-    }
-
-    void stop() {
-        group.stop();
     }
 }
